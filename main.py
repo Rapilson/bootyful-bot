@@ -10,9 +10,9 @@ TOKEN_BOT = "9299007599:AAEOr8Ya7lECwix6mS8vrTK_vusgcBjPzKk"
 SEU_ID_TELEGRAM = 7665685378 
 ID_GRUPO_VIP = -1004402755250 
 
-# File IDs de Imagens (Você vai pegar esses códigos mandando a foto pro bot depois)
-LINK_BANNER_BOAS_VINDAS = "COLE_O_FILE_ID_DA_IMAGEM_AQUI"
-LINK_QRCODE_PIX = "COLE_O_FILE_ID_DO_QRCODE_AQUI"
+# File IDs de Imagens oficiais 
+LINK_BANNER_BOAS_VINDAS = "AgACAgEAAxkBAAMGauy5bj4QcE1uJQHuRVaYqjMCqeUAAigPaxvMbWhH7phppGPV6hEBAAMCAAN5AAM9BA"
+LINK_QRCODE_PIX = "AgACAgEAAxkBAAMIauy6EgYLx5qEcJtuqwdMU3zMiKgAAikPaxvMbWhH6Ap22ndbguIBAAMCAAN5AAM9BA"
 
 # Suas carteiras oficiais 
 CARTEIRA_BTC = "bc1qv0vt52xa356n5sfz6ayq9enfr77teemr4htqtf"
@@ -48,11 +48,7 @@ def enviar_boas_vindas(message):
             btn_pix = InlineKeyboardButton("🇧🇷 Brazilian PIX (R$ 30,00)", callback_data="menu_pix")
             markup.add(btn_stars, btn_crypto, btn_pix)
         
-        # Se ainda não tiver imagem configurada, manda só o texto
-        if LINK_BANNER_BOAS_VINDAS == "COLE_O_FILE_ID_DA_IMAGEM_AQUI":
-            bot.send_message(message.chat.id, texto, reply_markup=markup, parse_mode="Markdown")
-        else:
-            bot.send_photo(message.chat.id, LINK_BANNER_BOAS_VINDAS, caption=texto, reply_markup=markup, parse_mode="Markdown")
+        bot.send_photo(message.chat.id, LINK_BANNER_BOAS_VINDAS, caption=texto, reply_markup=markup, parse_mode="Markdown")
         
     except Exception as e:
         bot.send_message(message.chat.id, f"❌ Erro: {e}")
@@ -71,10 +67,7 @@ def escutar_botoes(call):
             f"👇 Após fazer o pagamento, envie a *FOTO DO COMPROVANTE* aqui no chat!\n\n"
             f"ℹ️ Suporte: @HardHandsG"
         )
-        if LINK_QRCODE_PIX == "COLE_O_FILE_ID_DO_QRCODE_AQUI":
-            bot.send_message(chat_id, texto_instrucao, parse_mode="Markdown")
-        else:
-            bot.send_photo(chat_id, LINK_QRCODE_PIX, caption=texto_instrucao, parse_mode="Markdown")
+        bot.send_photo(chat_id, LINK_QRCODE_PIX, caption=texto_instrucao, parse_mode="Markdown")
 
     elif call.data == "stars_500":
         bot.send_invoice(
@@ -181,13 +174,10 @@ def getMessage():
 def webhook():
     bot.remove_webhook()
     
-    # ⚠️ COLOQUE AQUI O LINK DO RENDER DESTE NOVO BOT:
     url_render = "https://bootyful-bot.onrender.com" 
     
-    if url_render != "COLOQUE_SEU_LINK_DO_RENDER_AQUI":
-        bot.set_webhook(url=f"{url_render}/{TOKEN_BOT}")
-        return f"✅ Webhook configurado! Link: {url_render}", 200
-    return "⚠️ Link do Render não configurado no código ainda.", 200
+    bot.set_webhook(url=f"{url_render}/{TOKEN_BOT}")
+    return f"✅ Webhook configurado! Link: {url_render}", 200
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 10000))
