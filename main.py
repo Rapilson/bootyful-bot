@@ -113,13 +113,13 @@ def escutar_botoes(call):
         except Exception as e:
             bot.send_message(chat_id, f"Erro ao processar recusa. Erro: {e}")
 
-# --- 3. RECONHECIMENTO DE FOTOS (COMPROVANTE OU EXTRATOR DE FILE ID) ---
+# --- 3. RECEBIMENTO DE COMPROVANTES ---
 @bot.message_handler(content_types=['photo'])
-def tratar_fotos(message):
+def receber_comprovante(message):
     chat_id = message.chat.id
-    file_id_gerado = message.photo[-1].file_id
     
     if chat_id in usuarios_comprando:
+        file_id_gerado = message.photo[-1].file_id
         forma_pagamento = usuarios_comprando[chat_id]
         markup_admin = InlineKeyboardMarkup()
         markup_admin.add(
@@ -134,14 +134,6 @@ def tratar_fotos(message):
         )
         bot.send_message(chat_id, "⏳ Comprovante recebido! Aguarde a verificação.\n⏳ Receipt received! Please wait for verification.")
         del usuarios_comprando[chat_id]
-        
-    else:
-        texto_resposta = (
-            f"📸 *Nova imagem detectada!*\n\n"
-            f"Copie o código abaixo para colocar nas variáveis do código:\n\n"
-            f"`{file_id_gerado}`"
-        )
-        bot.reply_to(message, texto_resposta, parse_mode="Markdown")
 
 # --- 4. ENTREGA VIA STARS ---
 @bot.pre_checkout_query_handler(func=lambda query: True)
