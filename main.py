@@ -182,7 +182,7 @@ def webhook():
     bot.remove_webhook()
     
     # ⚠️ COLOQUE AQUI O LINK DO RENDER DESTE NOVO BOT:
-    url_render = "COLOQUE_SEU_LINK_DO_RENDER_AQUI" 
+    url_render = "https://bootyful-bot.onrender.com" 
     
     if url_render != "COLOQUE_SEU_LINK_DO_RENDER_AQUI":
         bot.set_webhook(url=f"{url_render}/{TOKEN_BOT}")
